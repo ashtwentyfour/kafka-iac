@@ -1,0 +1,8 @@
+storage_bucket: packages-dd0e0354-05c8-4096-af1c-e7ff15ae3dfe
+jre: 
+  version: 8u381
+  folder: jre1.8.0_381
+kafka:
+  version: 2.13-3.5.1
+zk:
+  version: 3.9.0

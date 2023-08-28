@@ -1,0 +1,10 @@
+zk:
+  nodes:
+    - zookeeper-vm-0
+    - zookeeper-vm-1
+    - zookeeper-vm-2 
+  version: 3.9.0
+  ids:
+    zookeeper-vm-0: 0
+    zookeeper-vm-1: 1
+    zookeeper-vm-2: 2

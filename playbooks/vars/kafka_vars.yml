@@ -1,0 +1,10 @@
+kafka:
+  nodes:
+    - kafka-vm-0
+    - kafka-vm-1
+    - kafka-vm-2 
+  version: 2.13-3.5.1
+  ids:
+    kafka-vm-0: 0
+    kafka-vm-1: 1
+    kafka-vm-2: 2

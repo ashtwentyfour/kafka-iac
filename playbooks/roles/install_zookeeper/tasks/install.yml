@@ -1,0 +1,29 @@
+---
+  - name: Create Zookeeper data directory
+    file:
+      path: /data/zookeeper
+      state: directory
+      owner: zk
+      group: zk
+      recurse: yes
+  - name: Extract Zookeeper package
+    ansible.builtin.unarchive:
+      src: "/home/{{ansible_user}}/apache-zookeeper-{{zk['version']}}-bin.tar.gz"
+      dest: "/opt"
+      remote_src: yes
+      owner: zk
+      group: zk
+  - name: Set permissions for 'zk' user
+    shell: sudo chown zk:zk -R /opt/apache-zookeeper-{{zk['version']}}-bin
+  - name: Update 'zoo.cfg'
+    ansible.builtin.template:
+      src: zoo.cfg.j2
+      dest: "/opt/apache-zookeeper-{{zk['version']}}-bin/conf/zoo.cfg"
+      owner: zk
+      group: zk
+  - name: Set Zookeeper node ID
+    ansible.builtin.template:
+      src: myid.j2
+      dest: "/data/zookeeper/myid"
+      owner: zk
+      group: zk

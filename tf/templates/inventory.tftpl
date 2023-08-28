@@ -1,0 +1,11 @@
+[kafka]
+%{ for addr in kafka_ips ~}
+${addr[0]} ansible_user=kafka
+%{ endfor ~}
+
+[zookeeper]
+%{ for addr_list in zk_ips ~}
+%{ for addr in addr_list ~}
+${addr} ansible_user=zk
+%{ endfor ~}
+%{ endfor ~}

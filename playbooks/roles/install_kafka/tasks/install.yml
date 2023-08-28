@@ -1,0 +1,16 @@
+--- 
+  - name: Extract Kafka package
+    ansible.builtin.unarchive:
+      src: "/home/{{ansible_user}}/kafka_{{kafka['version']}}.tgz"
+      dest: "/usr/local"
+      remote_src: yes
+      owner: kafka
+      group: kafka
+  - name: Set permissions for 'kafka' user
+    shell: sudo chown kafka:kafka -R /usr/local/kafka_{{kafka['version']}}
+  - name: Update Kafka 'server.properties'
+    ansible.builtin.template:
+      src: server.properties.j2
+      dest: "/usr/local/kafka_{{kafka['version']}}/config/server.properties"
+      owner: kafka
+      group: kafka

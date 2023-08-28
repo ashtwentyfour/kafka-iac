@@ -1,0 +1,4 @@
+---
+  - name: Setup Kafka
+    import_tasks: install.yml
+    

@@ -1,0 +1,32 @@
+---
+  - name: GCP authentication
+    hosts: all
+    tasks:
+    - name: Download installation files
+      copy: content="{{ service_accounts[0]['body'] }}" dest="/home/{{ansible_user}}/gcp_sa.json"
+    - name: GCP authentication using 'gcloud'
+      shell: gcloud auth activate-service-account --key-file="/home/{{ansible_user}}/gcp_sa.json"
+  - name: Install dependencies
+    hosts: all
+    vars_files:
+      - vars/setup_vars.yml
+    roles:
+      - role: object_download
+        vars:
+          file_path: "/home/{{ansible_user}}/jre-{{jre['version']}}-linux-x64.tar.gz"
+          object_path: "java/jre-{{jre['version']}}-linux-x64.tar.gz"
+      - role: object_download
+        vars:
+          file_path: "/home/{{ansible_user}}/kafka_{{kafka['version']}}.tgz"
+          object_path: "kafka/kafka_{{kafka['version']}}.tgz"
+        when: ansible_user == 'kafka'
+      - role: object_download
+        vars:
+          file_path: "/home/{{ansible_user}}/apache-zookeeper-{{zk['version']}}-bin.tar.gz"
+          object_path: "zookeeper/apache-zookeeper-{{zk['version']}}-bin.tar.gz"
+        when: ansible_user == 'zk'
+      - role: install_jre
+        become: yes
+  - import_playbook: zookeeper.yml 
+  - import_playbook: kafka.yml
+  

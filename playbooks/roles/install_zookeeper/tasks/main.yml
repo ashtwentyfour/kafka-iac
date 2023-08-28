@@ -1,0 +1,4 @@
+---
+  - name: Setup Zookeeper
+    import_tasks: install.yml
+    

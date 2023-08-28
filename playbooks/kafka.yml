@@ -1,0 +1,29 @@
+---
+  - name: Install Kafka
+    hosts: kafka
+    vars_files:
+      - vars/kafka_vars.yml
+      - vars/zk_vars.yml
+    roles:
+      - role: install_kafka
+        become: yes
+  - name: Start Kafka service
+    hosts: kafka
+    vars_files:
+      - vars/kafka_vars.yml
+      - vars/setup_vars.yml
+    tasks:
+      - name: Check if port 9092 is listening
+        wait_for:
+          host: "localhost"
+          port: 9092
+          delay: 5
+          timeout: 10
+          msg: "Timeout waiting for 9092 to respond"
+        register: port_check
+        ignore_errors: True
+      - name: Start service
+        environment:
+          JAVA_HOME: "/usr/java/{{jre['folder']}}"
+        shell: nohup /usr/local/kafka_{{kafka['version']}}/bin/kafka-server-start.sh /usr/local/kafka_{{kafka['version']}}/config/server.properties 2>&1 &
+        when: port_check.failed == True 

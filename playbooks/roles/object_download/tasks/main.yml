@@ -1,0 +1,7 @@
+---
+  - name: Output object details
+    ansible.builtin.debug:
+      msg: "Downloading object {{object_path}} from bucket {{storage_bucket}}"
+  - name: Download object from bucket
+    shell: gcloud storage cp gs://{{storage_bucket}}/{{object_path}} {{file_path}}
+    

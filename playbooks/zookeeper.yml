@@ -1,0 +1,33 @@
+---
+  - name: Install Zookeeper
+    hosts: zookeeper
+    vars_files:
+      - vars/zk_vars.yml
+    roles:
+      - role: install_zookeeper
+        become: yes
+  - name: Start Zookeeper service
+    hosts: zookeeper
+    vars_files:
+      - vars/zk_vars.yml
+      - vars/setup_vars.yml
+    tasks:
+      - name: Start service
+        environment:
+          JAVA_HOME: "/usr/java/{{jre['folder']}}"
+        shell: /opt/apache-zookeeper-{{zk['version']}}-bin/bin/zkServer.sh start
+        ignore_errors: True
+      - name: Check if port 2181 is listening
+        wait_for:
+          host: "localhost"
+          port: 2181
+          delay: 5
+          timeout: 10
+          msg: "Timeout waiting for 2181 to respond"
+        register: port_check
+        ignore_errors: True
+      - name: Attempt restart
+        environment:
+          JAVA_HOME: "/usr/java/{{jre['folder']}}"
+        shell: /opt/apache-zookeeper-{{zk['version']}}-bin/bin/zkServer.sh start
+        when: port_check.failed == True

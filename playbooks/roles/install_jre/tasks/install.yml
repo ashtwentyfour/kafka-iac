@@ -1,0 +1,17 @@
+---
+  - name: Create 'java' directory
+    file:
+      path: "/usr/java/{{jre['folder']}}"
+      state: directory
+  - name: Extract package
+    ansible.builtin.unarchive:
+      src: "/home/{{ansible_user}}/jre-{{jre['version']}}-linux-x64.tar.gz"
+      dest: "/home/{{ansible_user}}"
+      remote_src: yes
+  - name: Sync folder contents
+    shell: rsync -r /home/{{ansible_user}}/{{jre['folder']}}/ /usr/java/{{jre['folder']}}/
+  - name: Set $JAVA_HOME
+    lineinfile:
+      path: "/home/{{ansible_user}}/.bashrc"
+      line: "export JAVA_HOME=/usr/java/{{jre['folder']}}"
+      

@@ -1,0 +1,5 @@
+**/.terraform*
+*.backup
+*.tfstate
+**/gcp
+**/vault-password

@@ -1,0 +1,3 @@
+---
+  - name: Install JRE
+    import_tasks: install.yml

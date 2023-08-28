@@ -1,0 +1,9 @@
+tickTime=2000
+dataDir=/data/zookeeper
+clientPort=2181
+maxClientCnxns=60
+initLimit=10
+syncLimit=5
+server.0={{zk['nodes'][0]}}:2888:3888
+server.1={{zk['nodes'][1]}}:2888:3888
+server.2={{zk['nodes'][2]}}:2888:3888
