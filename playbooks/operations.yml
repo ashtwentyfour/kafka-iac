@@ -1,0 +1,10 @@
+---
+  - name: Copy SSH key from vault
+    hosts: localhost
+    connection: local
+    tasks:
+    - name: Extract private SSH key
+      copy: content="{{ keys[0]['body'] }}" dest="/tmp/ansible_private_ssh" mode="0600"
+      tags:
+      - localoperations
+      
