@@ -88,7 +88,7 @@ https://storage.cloud.google.com/packages-dd0e0354-05c8-4096-af1c-e7ff15ae3dfe/j
 * Run the 'operations.yml' playbook to copy the SSH key out of the vault (create a local 'vault-pass.txt' file with the vault password):
 
 ```
-ansible-playbook --vault-password-file vault-pass --extra-vars="@vault.yml" operations.yml
+ansible-playbook --vault-password-file vault-pass.txt --extra-vars="@vault.yml" operations.yml
 ```
 
 * Execute the playbook which installs Kafka and Zookeeper:
